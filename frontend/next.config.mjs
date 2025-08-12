@@ -36,8 +36,6 @@ const nextConfig = {
   reactStrictMode: true,
   // Ensure proper output
   distDir: '.next',
-  // Vercel specific optimizations
-  output: 'standalone',
   // Handle dynamic imports properly
   webpack: (config, { isServer }) => {
     if (!isServer) {
