@@ -17,18 +17,29 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("en")
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     // Check if language preference is stored
-    const storedLanguage = localStorage.getItem("language") as Language
-    if (storedLanguage && Object.keys(translations).includes(storedLanguage)) {
-      setLanguage(storedLanguage)
+    try {
+      const storedLanguage = localStorage.getItem("language") as Language
+      if (storedLanguage && Object.keys(translations).includes(storedLanguage)) {
+        setLanguage(storedLanguage)
+      }
+    } catch (error) {
+      // Handle localStorage access errors during SSR
+      console.warn("localStorage not available during SSR")
     }
   }, [])
 
   const changeLanguage = (newLanguage: Language) => {
     setLanguage(newLanguage)
-    localStorage.setItem("language", newLanguage)
+    try {
+      localStorage.setItem("language", newLanguage)
+    } catch (error) {
+      console.warn("localStorage not available")
+    }
   }
 
   const t = (key: string, params?: Record<string, any>): string => {
@@ -62,6 +73,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     { code: "es", name: "Español" },
     { code: "zh", name: "中文" },
   ]
+
+  // Don't render until mounted to avoid SSR issues
+  if (!mounted) {
+    return <>{children}</>
+  }
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage: changeLanguage, t, languages }}>

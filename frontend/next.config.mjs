@@ -28,12 +28,26 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
-  // Add these for better Vercel deployment
+  // Vercel deployment optimizations
   trailingSlash: false,
   poweredByHeader: false,
   compress: true,
   generateEtags: true,
   reactStrictMode: true,
+  // Ensure proper output
+  distDir: '.next',
+  // Handle dynamic imports properly
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    return config;
+  },
 }
 
 if (userConfig) {
