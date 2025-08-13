@@ -43,7 +43,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative w-full border-t overflow-hidden h-[632px]">
+    <footer className="relative w-full border-t overflow-hidden min-h-[400px] md:h-[632px]">
       {/* Footer Background */}
       <div className="absolute inset-0 -z-10">
         <Image 
@@ -55,176 +55,155 @@ export default function Footer() {
         />
       </div>
       
-      <div className="container py-10 relative z-10 h-[632px] flex flex-col justify-center">
+      <div className="container py-8 md:py-10 px-4 md:px-0 relative z-10 min-h-[400px] md:h-[632px] flex flex-col justify-center">
         {/* Legal Information Section */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">{t("legal.title")}</h2>
-          <p className="text-xl text-white/80 mb-8">{t("legal.subtitle")}</p>
+        <div className="max-w-3xl mx-auto text-center mb-8 md:mb-16">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-8 text-white">{t("legal.title")}</h2>
+          <p className="text-base md:text-xl text-white/80 mb-6 md:mb-8">{t("legal.subtitle")}</p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          {/* Legal Links - Stacked on mobile */}
+          <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:gap-6 justify-center">
             <Link
               href=""
-              className="text-lg text-white/80 hover:text-white underline underline-offset-4 transition-colors"
+              className="text-sm md:text-lg text-white/80 hover:text-white underline underline-offset-4 transition-colors py-2 md:py-0"
             >
               {t("legal.terms")}
             </Link>
             <Link
               href=""
-              className="text-lg text-white/80 hover:text-white underline underline-offset-4 transition-colors"
+              className="text-sm md:text-lg text-white/80 hover:text-white underline underline-offset-4 transition-colors py-2 md:py-0"
             >
               {t("legal.privacy")}
             </Link>
             <Link
               href=""
-              className="text-lg text-white/80 hover:text-white underline underline-offset-4 transition-colors"
+              className="text-sm md:text-lg text-white/80 hover:text-white underline underline-offset-4 transition-colors py-2 md:py-0"
             >
               {t("legal.cookies")}
             </Link>
             <Link
               href=""
-              className="text-lg text-white/80 hover:text-white underline underline-offset-4 transition-colors"
+              className="text-sm md:text-lg text-white/80 hover:text-white underline underline-offset-4 transition-colors py-2 md:py-0"
             >
               {t("legal.gdpr")}
             </Link>
           </div>
         </div>
 
-        {/* Footer Content */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-          <div className="flex flex-col gap-2">
+        {/* Footer Content - Stacked on mobile */}
+        <div className="grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-4">
+          {/* Company Info */}
+          <div className="flex flex-col gap-3 md:gap-2 text-center md:text-left">
             <Link
               href="/"
-              className="flex items-center gap-2"
+              className="flex items-center justify-center md:justify-start gap-2"
               onClick={(e) => handleNavClick(e, "/")}
             >
               <Image
-                src="/logo/main_logo.png"
-                alt="Quantum Vision Logo"
-                width={24}
-                height={24}
-                style={{ width: 'auto', height: '36px' }}
+                src="/Q_logo.png"
+                alt="Q Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8"
               />
+              <span className="text-lg md:text-xl font-bold text-white">Quantum Vision</span>
             </Link>
-            <p className="text-sm text-white/80">
-              {t("footer.tagline")}
+            <p className="text-sm md:text-base text-white/70 max-w-xs mx-auto md:mx-0">
+              Discover and vote for the most innovative films from around the world
             </p>
           </div>
 
-          <div>
-            <h3 className="mb-3 text-sm font-medium text-white">
-              {t("footer.navigation")}
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  href="/"
-                  className="text-white/80 hover:text-white"
-                  onClick={(e) => handleNavClick(e, "/")}
-                >
-                  {t("nav.home")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#categories"
-                  className="text-white/80 hover:text-white"
-                  onClick={(e) => handleNavClick(e, "/#categories")}
-                >
-                  {t("nav.categories")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#submit"
-                  className="text-white/80 hover:text-white"
-                  onClick={(e) => handleNavClick(e, "/#submit")}
-                >
-                  {t("nav.submit")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/#vote"
-                  className="text-white/80 hover:text-white"
-                  onClick={(e) => handleNavClick(e, "/#vote")}
-                >
-                  {t("nav.vote")}
-                </Link>
-              </li>
-            </ul>
+          {/* Quick Links */}
+          <div className="flex flex-col gap-3 md:gap-2 text-center md:text-left">
+            <h3 className="text-lg md:text-xl font-semibold text-white mb-2">Quick Links</h3>
+            <Link
+              href="/about"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              About Us
+            </Link>
+            <Link
+              href="/categories"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Categories
+            </Link>
+            <Link
+              href="/upload"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Submit Film
+            </Link>
+            <Link
+              href="/videos"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Vote Now
+            </Link>
           </div>
 
-          <div>
-            <h3 className="mb-3 text-sm font-medium text-white">{t("footer.legal")}</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  href=""
-                  className="text-white/80 hover:text-white"
-                >
-                  {t("legal.terms")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href=""
-                  className="text-white/80 hover:text-white"
-                >
-                  {t("legal.privacy")}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href=""
-                  className="text-white/80 hover:text-white"
-                >
-                  {t("legal.cookies")}
-                </Link>
-              </li>
-            </ul>
+          {/* Support */}
+          <div className="flex flex-col gap-3 md:gap-2 text-center md:text-left">
+            <h3 className="text-lg md:text-xl font-semibold text-white mb-2">Support</h3>
+            <Link
+              href="/help"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Help Center
+            </Link>
+            <Link
+              href="/contact"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Contact Us
+            </Link>
+            <Link
+              href="/faq"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              FAQ
+            </Link>
+            <Link
+              href="/guidelines"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Guidelines
+            </Link>
           </div>
 
-          <div>
-            <h3 className="mb-3 text-sm font-medium text-white">{t("footer.connect")}</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link
-                  href=""
-                  className="text-white/80 hover:text-white"
-                >
-                  Twitter
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href=""
-                  className="text-white/80 hover:text-white"
-                >
-                  Instagram
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href=""
-                  className="text-white/80 hover:text-white"
-                >
-                  Facebook
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href=""
-                  className="text-white/80 hover:text-white"
-                >
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
+          {/* Social & Legal */}
+          <div className="flex flex-col gap-3 md:gap-2 text-center md:text-left">
+            <h3 className="text-lg md:text-xl font-semibold text-white mb-2">Connect</h3>
+            <Link
+              href="/twitter"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Twitter
+            </Link>
+            <Link
+              href="/discord"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Discord
+            </Link>
+            <Link
+              href="/telegram"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Telegram
+            </Link>
+            <Link
+              href="/newsletter"
+              className="text-sm md:text-base text-white/70 hover:text-white transition-colors py-1"
+            >
+              Newsletter
+            </Link>
           </div>
         </div>
 
-        <div className="text-center mt-8 pt-8 border-t border-white/20">
-          <p className="text-sm text-white/60">
+        {/* Copyright */}
+        <div className="text-center mt-8 md:mt-12 pt-6 md:pt-8 border-t border-white/20">
+          <p className="text-sm md:text-base text-white/60">
             © {currentYear} Quantum Vision Filmfest. All rights reserved.
           </p>
         </div>
