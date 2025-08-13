@@ -6,6 +6,21 @@ import { Button } from "@/components/ui/button"
 import { Menu, X, Search, Film, Vote, Upload, Home } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import dynamic from 'next/dynamic'
+
+// Use dynamic imports with no SSR to avoid document/window errors
+const Hero = dynamic(() => import("@/components/home/hero"), { 
+  ssr: false,
+  loading: () => <div className="flex items-center justify-center min-h-screen">Loading...</div>
+})
+const NewGalaxyBackground = dynamic(() => import("@/components/home/new-galaxy-background"), { 
+  ssr: false,
+  loading: () => <div className="flex items-center justify-center min-h-screen">Loading...</div>
+})
+const BgSection = dynamic(() => import("@/components/home/bg-section"), { 
+  ssr: false,
+  loading: () => <div className="flex items-center justify-center min-h-screen">Loading...</div>
+})
 
 export default function MobilePage() {
   const { t, language, setLanguage, languages } = useLanguage()
@@ -28,171 +43,130 @@ export default function MobilePage() {
         
         {/* Content Overlay - Positioned on top of the image */}
         <div className="absolute inset-0 top-0 left-0 right-0 z-10">
-          {/* Mobile Content */}
-          <main className="px-2 py-4 relative max-w-sm mx-auto">
-            {/* NEW MOBILE DESIGN INDICATOR */}
-            <div className="bg-green-600/90 backdrop-blur-sm text-white text-center py-3 mb-6 rounded-lg border border-green-400/50 max-w-xs mx-auto">
-              <h2 className="text-lg font-bold">🎉 NEW MOBILE DESIGN LOADED! 🎉</h2>
-              <p className="text-xs">This is the separate mobile page at /mobile</p>
+          {/* Mobile Header */}
+          <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800 px-4 py-3">
+            <div className="flex items-center justify-between">
+              {/* Logo - Centered */}
+              <div className="flex-1 flex justify-center">
+                <Link href="/mobile" className="flex items-center space-x-2">
+                  <Image
+                    src="/Q_logo.png"
+                    alt="Q Logo"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8"
+                  />
+                  <span className="text-lg font-bold text-white">Quantum</span>
+                </Link>
+              </div>
+
+              {/* Right side - Search and Menu */}
+              <div className="flex items-center space-x-3">
+                <Button variant="ghost" size="sm" className="text-white p-2">
+                  <Search className="w-5 h-5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="text-white p-2"
+                >
+                  {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </Button>
+              </div>
             </div>
 
-            {/* Hero Section - Mobile Optimized */}
-            <section className="text-center mb-8">
-              <div className="mb-6">
-                <Image 
-                  src="/Q_logo.png" 
-                  alt="Q Logo" 
-                  width={60}
-                  height={60}
-                  className="w-15 h-15 mx-auto mb-4"
-                />
-                <h1 className="text-2xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-                  Discover and vote
-                </h1>
-                <p className="text-sm text-gray-200 mb-6 leading-relaxed">
-                  Discover and vote for the most innovative films from around the world
-                </p>
-              </div>
-              
-              {/* CTA Buttons - Full width on mobile */}
-              <div className="space-y-3">
-                <Button className="w-full max-w-xs bg-green-500 hover:bg-green-600 text-black py-3 text-base font-bold shadow-lg">
-                  Submit Your Film
-                </Button>
-                <Button className="w-full max-w-xs bg-blue-500 hover:bg-blue-600 text-white py-3 text-base font-bold shadow-lg">
-                  Connect Wallet
-                </Button>
-              </div>
-            </section>
+            {/* Mobile Menu */}
+            {isMenuOpen && (
+              <div className="mt-4 pb-4 border-t border-gray-800 bg-black/90 backdrop-blur-sm">
+                <nav className="flex flex-col space-y-4 pt-4">
+                  <Link 
+                    href="/mobile" 
+                    className="text-white hover:text-blue-300 transition-colors duration-200 text-lg font-medium text-center py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {t("nav.home")}
+                  </Link>
+                  <Link 
+                    href="/mobile#about" 
+                    className="text-white hover:text-blue-300 transition-colors duration-200 text-lg font-medium text-center py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    About
+                  </Link>
+                  <Link 
+                    href="/mobile#categories" 
+                    className="text-white hover:text-blue-300 transition-colors duration-200 text-lg font-medium text-center py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Categories
+                  </Link>
+                  <Link 
+                    href="/mobile#submit" 
+                    className="text-white hover:text-blue-300 transition-colors duration-200 text-lg font-medium text-center py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {t("nav.submit")}
+                  </Link>
+                  <Link 
+                    href="/mobile#vote" 
+                    className="text-white hover:text-blue-300 transition-colors duration-200 text-lg font-medium text-center py-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {t("nav.vote")}
+                  </Link>
+                </nav>
 
-            {/* Quantum Vision Section */}
-            <section className="mb-8 text-center">
-              <h2 className="text-xl font-bold mb-3 text-white">
-                Quantum Vision Filmfest
-              </h2>
-              <p className="text-sm text-gray-200 mb-6 leading-relaxed">
-                Experience the future of filmmaking where creativity meets technology.
-              </p>
-              
-              {/* CTA Buttons - Stacked */}
-              <div className="space-y-3">
-                <Button className="w-full max-w-xs bg-green-500 hover:bg-green-600 text-black py-3 shadow-lg">
-                  Submit Film
-                </Button>
-                <Button className="w-full max-w-xs bg-blue-500 hover:bg-blue-600 text-white py-3 shadow-lg">
-                  Connect Wallet
-                </Button>
-                <Button className="w-full max-w-xs bg-purple-500 hover:bg-purple-600 text-white py-3 shadow-lg">
-                  Presale Info
-                </Button>
-              </div>
-            </section>
-
-            {/* Film Categories - 2 per row */}
-            <section className="mb-8">
-              <h2 className="text-xl font-bold mb-6 text-center text-white">
-                Film Categories
-              </h2>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { icon: "🎬", title: "Narrative", desc: "Classic storytelling" },
-                  { icon: "📹", title: "Documentary", desc: "Truth unfiltered" },
-                  { icon: "🎨", title: "Animation", desc: "No limits" },
-                  { icon: "🔬", title: "Experimental", desc: "Break rules" },
-                  { icon: "🌍", title: "Dystopian", desc: "Future chaos" },
-                  { icon: "🤖", title: "AI & Identity", desc: "Machine dreams" }
-                ].map((category, index) => (
-                  <div key={index} className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-3 text-center border border-gray-700/50 shadow-lg">
-                    <div className="w-10 h-10 mx-auto mb-2 bg-gray-700/80 rounded-full flex items-center justify-center">
-                      <span className="text-xl">{category.icon}</span>
-                    </div>
-                    <h3 className="text-xs font-semibold text-white mb-1">{category.title}</h3>
-                    <p className="text-xs text-gray-200">{category.desc}</p>
+                {/* Mobile Auth and Language */}
+                <div className="flex flex-col space-y-4 pt-4 border-t border-gray-800">
+                  <div className="flex flex-col space-y-3">
+                    <Button variant="ghost" size="sm" className="text-white hover:text-blue-300 justify-center w-full">
+                      Login
+                    </Button>
+                    <Button variant="default" size="sm" className="justify-center w-full">
+                      Register
+                    </Button>
                   </div>
-                ))}
-              </div>
-            </section>
 
-            {/* Submit Requirements - Stacked */}
-            <section className="mb-8">
-              <h2 className="text-xl font-bold mb-6 text-center text-white">
-                Submit Your Entry
-              </h2>
-              <div className="space-y-3">
-                {[
-                  { icon: "⏱️", title: "Max. 5 Minutes", subtitle: "±15s", desc: ".mp4, 720p" },
-                  { icon: "📖", title: "Storyline", subtitle: "(PDF)", desc: "Max. 2 pages" },
-                  { icon: "📝", title: "Script Draft", subtitle: "(PDF)", desc: "4 parts" }
-                ].map((req, index) => (
-                  <div key={index} className="bg-gray-800/80 backdrop-blur-sm rounded-lg p-3 text-center border border-gray-700/50 shadow-lg max-w-xs mx-auto">
-                    <div className="w-10 h-10 mx-auto mb-2 bg-gray-700/80 rounded-full flex items-center justify-center">
-                      <span className="text-xl">{req.icon}</span>
-                    </div>
-                    <h3 className="text-sm font-semibold text-white mb-1">{req.title}</h3>
-                    <p className="text-gray-200 mb-1 text-xs">{req.subtitle}</p>
-                    <p className="text-xs text-gray-300">{req.desc}</p>
+                  {/* Mobile Language Switcher */}
+                  <div className="flex justify-center space-x-2">
+                    {languages.map((lang) => (
+                      <Button
+                        key={lang.code}
+                        variant={language === lang.code ? "default" : "ghost"}
+                        size="sm"
+                        onClick={() => setLanguage(lang.code)}
+                        className={`px-3 py-1 text-sm ${
+                          language === lang.code 
+                            ? "bg-blue-600 text-white" 
+                            : "text-gray-300 hover:text-white"
+                        }`}
+                      >
+                        {lang.code.toUpperCase()}
+                      </Button>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
-            </section>
+            )}
+          </header>
 
-            {/* Vote for Films - 2 per row */}
-            <section className="mb-8">
-              <h2 className="text-xl font-bold mb-6 text-center text-white">
-                Vote for Films
-              </h2>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { title: "The Future is Now", desc: "Sci-fi masterpiece" },
-                  { title: "Earth's Last Hope", desc: "Environmental doc" },
-                  { title: "Digital Dreams", desc: "Animated adventure" },
-                  { title: "Breaking Boundaries", desc: "Experimental film" }
-                ].map((film, index) => (
-                  <div key={index} className="bg-gray-800/80 backdrop-blur-sm rounded-lg overflow-hidden border border-gray-700/50 shadow-lg">
-                    <div className="aspect-video bg-gray-700/80 flex items-center justify-center">
-                      <span className="text-2xl">🎬</span>
-                    </div>
-                    <div className="p-2">
-                      <h3 className="text-xs font-semibold text-white mb-1">{film.title}</h3>
-                      <p className="text-xs text-gray-200">{film.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
+          {/* Desktop Content Components - Mobile Optimized */}
+          <main className="relative">
+            {/* Hero Component */}
+            <div className="mobile-hero-optimized">
+              <Hero />
+            </div>
 
-            {/* Additional content to fill the scroll height */}
-            <section className="mb-8 text-center">
-              <h2 className="text-xl font-bold mb-3 text-white">
-                Join Our Community
-              </h2>
-              <p className="text-sm text-gray-200 mb-6 leading-relaxed">
-                Connect with fellow filmmakers and film enthusiasts from around the world.
-              </p>
-              
-              <div className="space-y-3">
-                <Button className="w-full max-w-xs bg-indigo-500 hover:bg-indigo-600 text-white py-3 shadow-lg">
-                  Join Discord
-                </Button>
-                <Button className="w-full max-w-xs bg-pink-500 hover:bg-pink-600 text-white py-3 shadow-lg">
-                  Follow on Twitter
-                </Button>
-              </div>
-            </section>
+            {/* New Galaxy Background Component */}
+            <div className="mobile-galaxy-optimized">
+              <NewGalaxyBackground />
+            </div>
 
-            {/* Final CTA Section */}
-            <section className="mb-8 text-center">
-              <h2 className="text-xl font-bold mb-3 text-white">
-                Ready to Make History?
-              </h2>
-              <p className="text-sm text-gray-200 mb-6 leading-relaxed">
-                Submit your film today and be part of the future of cinema.
-              </p>
-              
-              <Button className="w-full max-w-xs bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white py-4 text-lg font-bold shadow-lg">
-                Start Your Journey
-              </Button>
-            </section>
+            {/* Bg Section Component */}
+            <div className="mobile-bg-optimized">
+              <BgSection />
+            </div>
           </main>
         </div>
       </div>
