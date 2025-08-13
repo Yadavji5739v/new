@@ -43,6 +43,11 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }
 
   const t = (key: string, params?: Record<string, any>): string => {
+    // During SSR or before mount, return the key to prevent hydration mismatch
+    if (!mounted) {
+      return key
+    }
+
     const keys = key.split(".")
     let value: any = translations[language]
 
@@ -74,11 +79,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     { code: "zh", name: "中文" },
   ]
 
-  // Don't render until mounted to avoid SSR issues
-  if (!mounted) {
-    return <>{children}</>
-  }
-
+  // Always provide the context, but with fallback behavior during SSR
   return (
     <LanguageContext.Provider value={{ language, setLanguage: changeLanguage, t, languages }}>
       {children}
